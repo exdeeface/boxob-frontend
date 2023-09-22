@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 const FilmList = () => {
     const [films, setFilms] = useState([]);
@@ -24,13 +27,23 @@ const FilmList = () => {
 
     return (
         <div className='FilmList'>
-            <h1 className='FilmListTitle'>Complete Film List</h1>
-            {films.map(
-                film =>
+            <div className='LeftPadding'>
+
+            </div>
+            <div className='FilmListContainer'>
+                <h1 className='FilmListTitle'>Complete Film List</h1>
+                {films.map(film =>
                     <div className='FilmBlock'>
                         <FilmInstance {...film} />
                     </div>
-            )}
+                )}
+            </div>
+            <div className='Fab'>
+                <Fab className="AddButton" color="primary" aria-label="add">
+                    <AddIcon />
+                </Fab>
+
+            </div>
         </div>
     );
 }

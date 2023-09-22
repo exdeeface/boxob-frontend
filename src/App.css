@@ -92,7 +92,7 @@ a {
   min-width: 75px;
   text-decoration: none;
   display: inline-block;
-  font-size: 1.0rem;
+  font-size: 0.75rem;
   text-shadow: 4px 4px 4px #0000004b;
   box-shadow: 10px 10px 10px #0000004b;
 }
@@ -112,25 +112,47 @@ a {
 }
 
 .FilmStuff {
-  width: 55%;
+  width: 70%;
 }
 
 .FilmArt {
-  width: 45%;
+  width:30%;
 }
 
 .FilmArt img {
-  border-radius: 10px;
-  width: 300px;
+  border-radius: 2%;
+  width: 100%;
 }
 
 .FilmBlock {
   display: flexbox;
   margin: auto;
   justify-content: center;
-  width: 45%;
+  width: 90%;
   background-color: rgb(252, 244, 246);
   padding: 10px;
+}
+
+
+
+.FilmList {
+  display: flex;
+  justify-content: center;
+}
+
+.Fab {
+  padding-top: 7%;
+  margin: none;
+}
+
+.FilmStuffContainer {
+  width: 100%;
+  display: flexbox;
+  justify-content: space-between;
+}
+
+.AddButtonContainer {
+  width: 10%;
 }
 
 .Loading {
@@ -140,13 +162,17 @@ a {
 }
 
 .FilmListTitle {
-  font-size: 6.0rem;
+  font-size: 3.0rem;
   color: rgb(230, 230, 230);
   font-style: italic;
 }
 
 .FilmComplex{
   color: azure;
+}
+
+.Fab {
+
 }
 
 .lds-dual-ring {

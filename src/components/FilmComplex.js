@@ -8,13 +8,12 @@ function FilmComplex() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/films/" + film_id).then(response => response.json()).then(data => {
-      setFilm(data);
+    fetch("/films/" + film_id).then(response => response.json()).then(film => {
+      setFilm(film);
       setLoading(false);
-    });
-
+    })
   }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    [film_id]);
 
   if (loading) {
     return (
@@ -30,9 +29,14 @@ function FilmComplex() {
       <h1>{film.film_id}: {film.title}</h1>
       <h1>{film.release_year}</h1>
       <h1>{film.rating}</h1>
-      <h1>{film.rental_rate} for {film.rental_duration} days rental</h1>
+      <h1>${film.rental_rate}/{film.rental_duration} days</h1>
       <h1>{film.length} minutes</h1>
-      <h1>{film.special_features.length}</h1>
+      {film.actors && film.special_features &&
+        <div>
+          <h1>{film.actors.length}</h1>
+          <h1>{film.special_features.length}</h1>
+        </div>
+      }     
       
     </div>
   )
