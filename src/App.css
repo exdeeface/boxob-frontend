@@ -133,10 +133,9 @@ a {
   padding: 10px;
 }
 
-
-
 .FilmList {
   display: flex;
+  min-width: none;
   justify-content: center;
 }
 
@@ -146,9 +145,11 @@ a {
 }
 
 .FilmStuffContainer {
-  width: 100%;
   display: flexbox;
-  justify-content: space-between;
+}
+
+.FilmListContainer {
+  width: 55%;
 }
 
 .AddButtonContainer {
