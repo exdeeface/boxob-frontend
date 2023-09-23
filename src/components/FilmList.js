@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import PopupForm from './PopupForm';
 
 const FilmList = () => {
     const [films, setFilms] = useState([]);
+    const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -14,6 +16,10 @@ const FilmList = () => {
             setLoading(false);
         });
     }, []);
+
+    const handleClose = () => {
+        setOpen(false);
+      };
 
     if (loading) {
         return (
@@ -31,18 +37,29 @@ const FilmList = () => {
             </div>
             <div className='FilmListContainer'>
                 <h1 className='FilmListTitle'>Complete Film List</h1>
-                {films.map(film =>
-                    <div className='FilmBlock'>
-                        <FilmInstance {...film} />
-                    </div>
+                {films.map(
+                    (film, i) => {
+                        { console.log(i) }
+                        film.index = i+1;
+                        return (
+                            <div className='FilmBlock'>
+                            <FilmInstance {...film}/>
+                            </div>
+                        )
+                    }
                 )}
             </div>
             <div className='Fab'>
-                <Fab className="AddButton" color="primary" aria-label="add">
+                <Fab className="AddButton" color="primary" aria-label="add" onClick={() => {
+                    setOpen(true);
+                }}>
                     <AddIcon />
                 </Fab>
-
             </div>
+            <PopupForm
+                open={open}
+                onClose={handleClose}
+            />
         </div>
     );
 }
@@ -58,7 +75,7 @@ const FilmInstance = (film) => {
         <div className='FilmInstanceContainer'>
             <div className="FilmInstance" key={film.film_id}>
                 <div className='FilmStuff'>
-                    <h1>{film.film_id}: <a href={"/films/" + film.film_id} onClick={() => {
+                    <h1>{film.index}: <a href={"/films/" + film.film_id} onClick={() => {
                         navigate("/films/" + film.film_id);
                     }}>{film.title}</a></h1>
                     <h2><em>Year: {film.release_year}, Rating: {film.rating}</em></h2>
