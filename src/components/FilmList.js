@@ -12,7 +12,7 @@ const FilmList = () => {
     const [films, setFilms] = useState([]);
     const [addFilmOpen, setAddFilmOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    
     useEffect(() => {
         setLoading(true);
         fetch("/films").then(response => response.json()).then(data => {
@@ -97,8 +97,8 @@ const FilmInstance = (film) => {
                         <div className='FilmTitleContainer'>
                             <h2>{film.index}: <a href={"/films/" + film.film_id} onClick={() => {
                                 navigate("/films/" + film.film_id);
-                            }}>{film.title}</a></h2>
-                            <h3><em>{film.release_year}</em>, <em>{film.rating}</em>, <em>{film.length}</em> mins</h3>
+                            }}>{film.title}</a> {"(" + film.release_year + ")"}</h2>
+                            <h3><em>{film.categories[0].name}</em>, <em>{film.rating}</em></h3>
                         </div>
                         <div className='ButtonContainer'>
                             <IconButton aria-label="delete" size="large" >
@@ -119,7 +119,7 @@ const FilmInstance = (film) => {
                         />
                     </div>
                     <div className='FilmPlot'>
-                        <h4>Plot:<br></br>{film.description}</h4>
+                        <h4>{film.description}</h4>
                     </div>
                     <div className='FilmDescContainer'>
                         {showDetails && <FilmDesc {...film} />}
@@ -149,20 +149,43 @@ const FilmDesc = (film) => {
         actor.last_name = actor.last_name.charAt(0).toUpperCase() + actor.last_name.slice(1);
     }
 
+    const getLanguage = (language_id) => {
+        switch (language_id) {
+            case 1: return "English";
+            case 2: return "Italian";
+            case 3: return "Japanese";
+            case 4: return "Mandarin";
+            case 5: return "French";
+            case 6: return "German";
+            default: return "English";
+        }
+    }
+
     return (
-        <div key={film.film_id} className='FilmDesc'>
-            <div className='ActorsInFilm'>
-                <h4>Cast:<br></br>
+        <div key={film.film_id} className='FilmDescContainer'>
+            
+            <div className='FilmDesc'>
+                <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
+                <h5><em>Run Time: </em> {film.length} mins</h5>
+                <h5><em>Cast: </em>
                     {film.actors.map(
                         (actor, i) => {
                             fixCasing(actor);
-                            if (i <= 3) {
-                                return (<span>{i + 1}: {actor.first_name} {actor.last_name} </span>)
-                            }
+                            if (i < film.actors.length - 1) { return (<span>{i + 1}: {actor.first_name} {actor.last_name}, </span>); }
+                            else { return (<span>{i + 1}: {actor.first_name} {actor.last_name} </span>); }
                         },
 
                     )}
-                    <em>and {film.actors.length - 3} more. </em></h4>
+                </h5>
+                <h5><em>Special Features: </em>
+                    {film.special_features.map(
+                        (feature, i) => {
+                            if (i < film.special_features.length - 1) { return (<span>{feature}, </span>); }
+                            else { return (<span>{feature} </span>);  }
+                        },
+
+                    )}
+                </h5> 
             </div>
         </div>
     )
