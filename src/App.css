@@ -53,27 +53,29 @@ body {
 }
 
 .FilmDescContainer {
-  padding: 5px;
-  background-image: linear-gradient(180deg, rgb(60, 61, 61), rgba(83, 85, 85, 0.192));
+  margin: 10px;
+  /*background-image: linear-gradient(180deg, rgb(60, 61, 61), rgba(83, 85, 85, 0.192));*/
   border-radius: 5px;
 }
 
 .FilmPlot {
-  width: 50%;
+  color: black;
+  text-align: left;
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: rgb(139, 6, 6);
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .ActorsInFilm {
-  width: 50%;
-}
-
-.FilmDesc h4{
-  padding: 20px;
-  margin: 0px;
+  text-align: left;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .FilmDesc {
   display: flex;
-  
 }
 
 a {
@@ -89,7 +91,7 @@ a {
   padding: 15px 32px;
   font-style: normal;
   text-align: center;
-  min-width: 75px;
+  min-width: 100px;
   text-decoration: none;
   display: inline-block;
   font-size: 0.75rem;
@@ -100,12 +102,13 @@ a {
 .FilmInstanceContainer {
   background-image: linear-gradient(180deg, rgb(218, 8, 8), rgb(179, 10, 10), rgb(179, 10, 10), rgba(94, 2, 2, 0.945));
   color: rgb(230, 230, 230);
-  padding: 10px;
+  padding: 10;
   border-radius: 5px;
 }
 
 .FilmInstance {
   display: flex;
+  justify-content: space-between;
   color: rgb(230, 230, 230);
   padding: 10px;
   border-radius: 5px;
@@ -116,12 +119,15 @@ a {
 }
 
 .FilmArt {
-  width:30%;
+  display: flex;
+  margin-left: 10px;
+  justify-content: center;
 }
 
 .FilmArt img {
+  margin: auto;
+  width: fit-content;
   border-radius: 2%;
-  width: 100%;
 }
 
 .FilmBlock {
@@ -145,7 +151,7 @@ a {
 }
 
 .FilmStuffContainer {
-  display: flexbox;
+  
 }
 
 .FilmListContainer {
@@ -190,12 +196,8 @@ a {
 }
 
 @keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% {  transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .ActorInstanceContainer {
@@ -238,4 +240,18 @@ a {
   font-size: 6.0rem;
   color: rgb(230, 230, 230);
   font-style: italic;
+}
+
+.IHateCss {
+  display: flex;
+}
+
+.FilmTitleContainer {
+  text-align: left;
+  margin-left: 20px;
+  width: 95%;
+}
+
+.ButtonContaniner {
+  width: 5%;
 }

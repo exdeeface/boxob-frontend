@@ -14,68 +14,82 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { useState, } from 'react';
+import { useState } from 'react';
 
-const PopupForm = (props) => {
-    const { onClose, open } = props;
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [release_year, setReleaseYear] = useState("");
-    const [language_id, setLanguageId] = useState('');;
-    const [length, setLength] = useState();
-    const [rating, setRating] = useState('');
-    const [category, setCategory] = useState('');
+const EditFilmForm = (props) => {
+    const { onClose, open, film } = props;
+    const [title, setTitle] = useState(film.title);
+    const [description, setDescription] = useState(film.description);
+    const [release_year, setReleaseYear] = useState(film.release_year);
+    const [language_id, setLanguageId] = useState(film.language_id);;
+    const [length, setLength] = useState(film.length);
+    const [rating, setRating] = useState(film.rating);
+    const [category, setCategory] = useState(film.categories[0].category_id);
 
     const handleRatingChange = (event) => { setRating(event.target.value); };
     const handleCategoryChange = (event) => { setCategory(event.target.value); };
     const handleLanaguageChange = (event) => { setLanguageId(event.target.value); };
     const handleClose = () => { onClose(); };
 
-    const addFilm = () => {
-        fetch("/films/add", {
-            method: "POST",
+    const updateFilm = () => {
+        fetch(`films/update/${film.film_id}`, {
+            method: "PUT",
             body: JSON.stringify({
+                "film_id": film.film_id,
                 "title": title,
                 "description": description,
                 "length": length,
                 "release_year": release_year,
                 "rating": rating,
-                "rental_duration": 0,
-                "rental_rate": 0,
                 "language_id": language_id,
+                "rental_duration": film.rental_duration,
+                "rental_rate": film.rental_rate,
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
             },
         })
+
+        if (category !== film.categories[0].category_id) {
+            fetch(`film_category/add/`, {
+                method: "POST",
+                body: JSON.stringify({
+                    "film_id": film.film_id,
+                    "category_id": category
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            })
+        }
     }
 
     return (
         <div>
-            <Dialog fullWidth={true} maxWidth={'sm'} open={open} onClose={handleClose} className='PopupForm'>
-                <DialogTitle>Add New Movie</DialogTitle>
+            <Dialog fullWidth={true} maxWidth={'sm'} open={open} onClose={handleClose} className='EditFilmForm'>
+                <DialogTitle>Edit Movie Details</DialogTitle>
                 <List sx={{ padding: 2 }}>
                     <ListItem disableGutters>
-                        <TextField id="outlined-basic" label="Title" variant="outlined" style={{ width: 300 }}
+                        <TextField id="outlined-basic" label={"Title"} placeholder={title} variant="outlined" style={{ width: 300 }}
                             onChange={e => {
                                 setTitle(e.target.value);
                             }} />
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <TextField id="outlined-basic" label="Year" variant="outlined" style={{ width: 120 }}
+                        <TextField id="outlined-basic" label="Year" placeholder={film.release_year} variant="outlined" style={{ width: 120 }}
                             onChange={e => {
                                 setReleaseYear(e.target.value);
                             }} />
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <TextField id="outlined-basic" label="Runtime" variant="outlined" style={{ width: 120 }}
+                        <TextField id="outlined-basic" label="Runtime" placeholder={film.length} variant="outlined" style={{ width: 120 }}
                             onChange={e => {
                                 setLength(e.target.value);
-                            }}/>
+                            }} />
                     </ListItem>
                     <ListItem disableGutters>
-                        <TextField id="outlined-basic" label="Description" variant="outlined" fullWidth
-                        onChange={e => {
-                            setDescription(e.target.value);
-                        }}/>
+                        <TextField id="outlined-basic" label="Description" placeholder={film.description} multiline variant="outlined" fullWidth
+                            onChange={e => {
+                                setDescription(e.target.value);
+                            }} />
                     </ListItem>
                     <ListItem disableGutters>
                         <FormControl sx={{ minWidth: 178 }}>
@@ -139,7 +153,9 @@ const PopupForm = (props) => {
                         </FormControl>
                     </ListItem>
                     <ListItem disableGutters>
-                        <ListItemButton autoFocus onClick={addFilm}>
+                        <ListItemButton autoFocus onClick={() => {
+                            updateFilm();
+                        }}>
                             <ListItemAvatar>
                                 <Avatar>
                                     <AddIcon />
@@ -154,10 +170,10 @@ const PopupForm = (props) => {
     );
 }
 
-PopupForm.propTypes = {
+EditFilmForm.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired
 };
 
 
-export default PopupForm;
+export default EditFilmForm;
