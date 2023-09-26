@@ -50,18 +50,18 @@ const EditFilmForm = (props) => {
             },
         })
 
-        if (category !== film.categories[0].category_id) {
-            fetch(`film_category/add/`, {
-                method: "POST",
-                body: JSON.stringify({
+        fetch("film_category/update", {
+            method: "PUT",
+            body: JSON.stringify({
+                "filmCategoryId": {
                     "film_id": film.film_id,
                     "category_id": category
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            })
-        }
+                }
+             }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        })
     }
 
     return (

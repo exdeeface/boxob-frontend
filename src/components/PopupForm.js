@@ -43,6 +43,12 @@ const PopupForm = (props) => {
                 "rental_duration": 0,
                 "rental_rate": 0,
                 "language_id": language_id,
+                "categories": [
+                    {
+                        "category_id": category,
+                        "name": null
+                    }
+                ]
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",

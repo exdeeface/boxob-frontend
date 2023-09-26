@@ -12,7 +12,7 @@ const FilmList = () => {
     const [films, setFilms] = useState([]);
     const [addFilmOpen, setAddFilmOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    
+
     useEffect(() => {
         setLoading(true);
         fetch("/films").then(response => response.json()).then(data => {
@@ -71,7 +71,8 @@ export default FilmList;
 
 const FilmInstance = (film) => {
     let [showDetails, setShowDetails] = useState(false);
-    let [buttonText, setButtonText] = useState("Expand")
+    let [buttonText, setButtonText] = useState("Expand");
+
     const [editFilmOpen, setEditFilmOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -98,7 +99,7 @@ const FilmInstance = (film) => {
                             <h2>{film.index}: <a href={"/films/" + film.film_id} onClick={() => {
                                 navigate("/films/" + film.film_id);
                             }}>{film.title}</a> {"(" + film.release_year + ")"}</h2>
-                            <h3><em>{film.categories[0].name}</em>, <em>{film.rating}</em></h3>
+                            <h3>Genre: <em>{film.categories[0].name}</em>, Rated: <em>{film.rating}</em></h3>
                         </div>
                         <div className='ButtonContainer'>
                             <IconButton aria-label="delete" size="large" >
@@ -134,7 +135,7 @@ const FilmInstance = (film) => {
                     </div>
                 </div>
                 <div className='FilmArt'>
-                    <img src={require('../images/missing-image.jpg')} alt='missing poster' />
+                    <img src={require('../images/missing-image.jpg')} alt='missing poster'/>
                 </div>
             </div>
         </div>
@@ -163,7 +164,7 @@ const FilmDesc = (film) => {
 
     return (
         <div key={film.film_id} className='FilmDescContainer'>
-            
+
             <div className='FilmDesc'>
                 <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
                 <h5><em>Run Time: </em> {film.length} mins</h5>
@@ -181,11 +182,11 @@ const FilmDesc = (film) => {
                     {film.special_features.map(
                         (feature, i) => {
                             if (i < film.special_features.length - 1) { return (<span>{feature}, </span>); }
-                            else { return (<span>{feature} </span>);  }
+                            else { return (<span>{feature} </span>); }
                         },
 
                     )}
-                </h5> 
+                </h5>
             </div>
         </div>
     )
