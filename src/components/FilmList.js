@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-import PopupForm from './PopupForm';
+import AddFilmForm from './AddFilmForm';
 import EditFilmForm from './EditFilmForm';
 
 const FilmList = () => {
@@ -59,7 +59,7 @@ const FilmList = () => {
                     <AddIcon />
                 </Fab>
             </div>
-            <PopupForm
+            <AddFilmForm
                 open={addFilmOpen}
                 onClose={handleClose}
             />
@@ -182,8 +182,8 @@ const FilmDesc = (film) => {
                     {film.actors.map(
                         (actor, i) => {
                             fixCasing(actor);
-                            if (i < film.actors.length - 1) { return (<span>{i + 1}: {actor.first_name} {actor.last_name}, </span>); }
-                            else { return (<span>{i + 1}: {actor.first_name} {actor.last_name} </span>); }
+                            if (i < film.actors.length - 1) { return (<span>{actor.first_name} {actor.last_name}, </span>); }
+                            else { return (<span>{actor.first_name} {actor.last_name} </span>); }
                         },
 
                     )}

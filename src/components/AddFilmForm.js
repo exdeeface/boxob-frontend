@@ -16,7 +16,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useState, } from 'react';
 
-const PopupForm = (props) => {
+const AddFilmForm = (props) => {
     const { onClose, open } = props;
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -163,10 +163,10 @@ const PopupForm = (props) => {
     );
 }
 
-PopupForm.propTypes = {
+AddFilmForm.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired
 };
 
 
-export default PopupForm;
+export default AddFilmForm;
