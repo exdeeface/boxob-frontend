@@ -145,7 +145,10 @@ const PopupForm = (props) => {
                         </FormControl>
                     </ListItem>
                     <ListItem disableGutters>
-                        <ListItemButton autoFocus onClick={addFilm}>
+                        <ListItemButton autoFocus onClick={() => {
+                            addFilm();
+                            handleClose();
+                        }}>
                             <ListItemAvatar>
                                 <Avatar>
                                     <AddIcon />

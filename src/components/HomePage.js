@@ -4,7 +4,7 @@ import PageButton from "./PageButton"
 function HomePage() {
     return (
       <div className='HomePage'>
-        <h1>boxop movie database</h1>
+        <h1>boxob movie database</h1>
         <h2>the world largest locally hosted database for movies and actors</h2>
   
         <div className='ButtonGroup'>

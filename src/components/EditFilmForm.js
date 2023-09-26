@@ -155,6 +155,7 @@ const EditFilmForm = (props) => {
                     <ListItem disableGutters>
                         <ListItemButton autoFocus onClick={() => {
                             updateFilm();
+                            handleClose();
                         }}>
                             <ListItemAvatar>
                                 <Avatar>

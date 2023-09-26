@@ -70,8 +70,18 @@ const FilmList = () => {
 export default FilmList;
 
 const FilmInstance = (film) => {
+    const [films, setFilms] = useState([]);
     let [showDetails, setShowDetails] = useState(false);
     let [buttonText, setButtonText] = useState("Expand");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        fetch("/films").then(response => response.json()).then(data => {
+            setFilms(data);
+            setLoading(false);
+        });
+    }, [films]);
 
     const [editFilmOpen, setEditFilmOpen] = useState(false);
     const navigate = useNavigate();
