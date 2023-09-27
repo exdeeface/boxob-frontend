@@ -62,23 +62,23 @@ const AddFilmForm = (props) => {
                 <DialogTitle>Add New Movie</DialogTitle>
                 <List sx={{ padding: 2 }}>
                     <ListItem disableGutters>
-                        <TextField id="outlined-basic" label="Title" variant="outlined" style={{ width: 300 }}
+                        <TextField id="title" label="Title" variant="outlined" style={{ width: 300 }}
                             onChange={e => {
                                 setTitle(e.target.value);
                             }} />
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <TextField id="outlined-basic" label="Year" variant="outlined" style={{ width: 120 }}
+                        <TextField id="year" label="Year" variant="outlined" style={{ width: 120 }}
                             onChange={e => {
                                 setReleaseYear(e.target.value);
                             }} />
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <TextField id="outlined-basic" label="Runtime" variant="outlined" style={{ width: 120 }}
+                        <TextField id="runtime" label="Runtime" variant="outlined" style={{ width: 120 }}
                             onChange={e => {
                                 setLength(e.target.value);
                             }}/>
                     </ListItem>
                     <ListItem disableGutters>
-                        <TextField id="outlined-basic" label="Description" variant="outlined" fullWidth
+                        <TextField id="description" label="Description" variant="outlined" fullWidth
                         onChange={e => {
                             setDescription(e.target.value);
                         }}/>
@@ -104,7 +104,7 @@ const AddFilmForm = (props) => {
                             <InputLabel id="CategoryInput">Category</InputLabel>
                             <Select
                                 labelId="catlabel"
-                                id="categories"
+                                id="category"
                                 value={category}
                                 label="Category"
                                 onChange={handleCategoryChange}

@@ -19,7 +19,7 @@ const FilmList = () => {
             setFilms(data);
             setLoading(false);
         });
-    }, []);
+    }, [films]);
 
     const handleClose = () => {
         setAddFilmOpen(false);
@@ -51,6 +51,9 @@ const FilmList = () => {
                         )
                     }
                 )}
+                <div>
+                    <p className='FooterText'>some text</p>
+                </div>
             </div>
             <div className='Fab'>
                 <Fab className="AddButton" color="primary" aria-label="add" onClick={() => {
@@ -64,24 +67,15 @@ const FilmList = () => {
                 onClose={handleClose}
             />
         </div>
+
     );
 }
 
 export default FilmList;
 
 const FilmInstance = (film) => {
-    const [films, setFilms] = useState([]);
     let [showDetails, setShowDetails] = useState(false);
     let [buttonText, setButtonText] = useState("Expand");
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        setLoading(true);
-        fetch("/films").then(response => response.json()).then(data => {
-            setFilms(data);
-            setLoading(false);
-        });
-    }, [films]);
 
     const [editFilmOpen, setEditFilmOpen] = useState(false);
     const navigate = useNavigate();
@@ -145,7 +139,7 @@ const FilmInstance = (film) => {
                     </div>
                 </div>
                 <div className='FilmArt'>
-                    <img src={require('../images/missing-image.jpg')} alt='missing poster'/>
+                    <img src={require('../images/missing-image.jpg')} alt='missing poster' />
                 </div>
             </div>
         </div>
@@ -172,32 +166,42 @@ const FilmDesc = (film) => {
         }
     }
 
-    return (
-        <div key={film.film_id} className='FilmDescContainer'>
-
-            <div className='FilmDesc'>
-                <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
-                <h5><em>Run Time: </em> {film.length} mins</h5>
-                <h5><em>Cast: </em>
-                    {film.actors.map(
-                        (actor, i) => {
-                            fixCasing(actor);
-                            if (i < film.actors.length - 1) { return (<span>{actor.first_name} {actor.last_name}, </span>); }
-                            else { return (<span>{actor.first_name} {actor.last_name} </span>); }
-                        },
-
-                    )}
-                </h5>
-                <h5><em>Special Features: </em>
-                    {film.special_features.map(
-                        (feature, i) => {
-                            if (i < film.special_features.length - 1) { return (<span>{feature}, </span>); }
-                            else { return (<span>{feature} </span>); }
-                        },
-
-                    )}
-                </h5>
+    if (film.special_features && film.actors) {
+        return (
+            <div key={film.film_id} className='FilmDescContainer'>
+                <div className='FilmDesc'>
+                    <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
+                    <h5><em>Run Time: </em> {film.length} mins</h5>
+                    <h5><em>Cast: </em>
+                        {film.actors.map(
+                            (actor, i) => {
+                                fixCasing(actor);
+                                if (i < film.actors.length - 1) { return (<span>{actor.first_name} {actor.last_name}, </span>); }
+                                else { return (<span>{actor.first_name} {actor.last_name} </span>); }
+                            },
+                        )}
+                    </h5>
+                    <h5><em>Special Features: </em>
+                        {film.special_features.map(
+                            (feature, i) => {
+                                if (i < film.special_features.length - 1) { return (<span>{feature}, </span>); }
+                                else { return (<span>{feature} </span>); }
+                            },
+                        )}
+                    </h5>
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+                <div key={film.film_id} className='FilmDescContainer'>
+                    <div className='FilmDesc'>
+                        <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
+                        <h5><em>Run Time: </em> {film.length} mins</h5>
+                        <h5><em>Cast:</em> None Available</h5>
+                        <h5><em>Special Features:</em> None Available</h5>
+                    </div>
+                </div>
+            )
+    }
 }

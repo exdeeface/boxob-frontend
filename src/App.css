@@ -146,10 +146,6 @@ a {
   margin: none;
 }
 
-.FilmStuffContainer {
-  
-}
-
 .FilmListContainer {
   width: 55%;
 }
@@ -250,4 +246,8 @@ a {
 
 .ButtonContaniner {
   width: 5%;
+}
+
+.FooterText {
+  color: #202020;
 }
