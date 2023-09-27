@@ -19,11 +19,12 @@ const FilmList = () => {
             setFilms(data);
             setLoading(false);
         });
-    }, [films]);
+    }, []);
 
     const handleClose = () => {
         setAddFilmOpen(false);
     };
+
 
     if (loading) {
         return (
