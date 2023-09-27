@@ -114,15 +114,25 @@ a {
   width: 70%;
 }
 
+.FilmInstance em {
+  color:#202020;
+  font-weight: bolder;
+}
+
+.FilmDesc h5 em {
+  color:#202020;
+  font-weight: bolder;
+  font-size: 1.05rem;
+}
+
 .FilmArt {
-  display: flex;
   margin-left: 10px;
-  justify-content: center;
+  display: flex;
 }
 
 .FilmArt img {
+  overflow: hidden;
   margin: auto;
-  width: fit-content;
   border-radius: 2%;
 }
 
@@ -135,8 +145,17 @@ a {
   padding: 10px;
 }
 
+.TopBar {
+  width: 100%;
+  padding-bottom: 25px;
+}
+
+.TopBarButtons {
+  display:block;
+}
+
 .FilmList {
-  display: flex;
+  display: flexbox;
   min-width: none;
   justify-content: center;
 }
@@ -148,10 +167,18 @@ a {
 
 .FilmListContainer {
   width: 55%;
+  margin: auto;
+  position: relative;
 }
 
 .AddButtonContainer {
   width: 10%;
+}
+
+.AddButton {
+  position: absolute!important;
+  right: -2.5rem;
+  top: 0;
 }
 
 .Loading {
@@ -239,6 +266,7 @@ a {
 }
 
 .FilmTitleContainer {
+  width: 100vw;
   text-align: left;
   margin-left: 20px;
   width: 95%;

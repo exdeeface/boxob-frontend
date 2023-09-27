@@ -7,6 +7,7 @@ import Delete from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import AddFilmForm from './AddFilmForm';
 import EditFilmForm from './EditFilmForm';
+import TextField from '@mui/material/TextField';
 
 const FilmList = () => {
     const [films, setFilms] = useState([]);
@@ -52,9 +53,25 @@ const FilmList = () => {
 
     return (
         <div className='FilmList'>
+            <div className='TopBar'>
+                <h1 className='FilmListTitle'>Complete Film List</h1>
+                <div className='TopBarButtons'>
+                    <TextField id="search" label="Search" variant="outlined" style={{ width: 450, background: true, backgroundColor: 'rgb(252, 244, 246)', borderRadius: 5 }}
+                        onChange={e => {
+
+                        }} />
+
+                </div>
+            </div>
             <div className='LeftPadding' />
             <div className='FilmListContainer'>
-                <h1 className='FilmListTitle'>Complete Film List</h1>
+                <Fab className="AddButton" color="primary" aria-label="add" onClick={() => { setAddFilmOpen(true); }}>
+                    <AddIcon />
+                </Fab>
+                <AddFilmForm
+                    open={addFilmOpen}
+                    onClose={handleClose}
+                />
                 {films.map(
                     (film, i) => {
                         film.index = i + 1;
@@ -74,17 +91,6 @@ const FilmList = () => {
                     <p className='FooterText'>some hidden text</p>
                 </div>
             </div>
-            <div className='Fab'>
-                <Fab className="AddButton" color="primary" aria-label="add" onClick={() => {
-                    setAddFilmOpen(true);
-                }}>
-                    <AddIcon />
-                </Fab>
-            </div>
-            <AddFilmForm
-                open={addFilmOpen}
-                onClose={handleClose}
-            />
         </div>
 
     );
@@ -113,7 +119,7 @@ const FilmInstance = (props) => {
                             <h2>{film.index}: <a href={"/films/" + film.film_id} onClick={() => {
                                 navigate("/films/" + film.film_id);
                             }}>{film.title}</a> {"(" + film.release_year + ")"}</h2>
-                            <h3>Genre: <em>{film.categories[0].name}</em>, Rated: <em>{film.rating}</em></h3>
+                            <h3><em>Genre:</em> {film.categories[0].name}, <em>Rated:</em> {film.rating}</h3>
                         </div>
                         <div className='ButtonContainer'>
                             <IconButton aria-label="delete" size="large" >
@@ -180,9 +186,9 @@ const FilmDesc = (film) => {
         return (
             <div key={film.film_id} className='FilmDescContainer'>
                 <div className='FilmDesc'>
-                    <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
-                    <h5><em>Run Time: </em> {film.length} mins</h5>
-                    <h5><em>Cast: </em>
+                    <h5><em>Language: </em> {getLanguage(film.language_id)}<br />
+                        <em>Run Time: </em> {film.length} mins <br />
+                        <em>Cast: </em>
                         {film.actors.map(
                             (actor, i) => {
                                 fixCasing(actor);
@@ -190,8 +196,8 @@ const FilmDesc = (film) => {
                                 else { return (<span>{actor.first_name} {actor.last_name} </span>); }
                             },
                         )}
-                    </h5>
-                    <h5><em>Special Features: </em>
+                        <br />
+                        <em>Special Features: </em>
                         {film.special_features.map(
                             (feature, i) => {
                                 if (i < film.special_features.length - 1) { return (<span>{feature}, </span>); }
