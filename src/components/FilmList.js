@@ -12,19 +12,34 @@ const FilmList = () => {
     const [films, setFilms] = useState([]);
     const [addFilmOpen, setAddFilmOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films").then(response => response.json()).then(data => {
+        //fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films")
+        fetch("/films").then(response => response.json()).then(data => {
             setFilms(data);
             setLoading(false);
         });
     }, []);
 
+    const deleteFilm = async (film) => {
+        console.log(film.index, "/", films.length);
+        setLoading(true);
+        //fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com
+        await fetch("/films/delete/" + film.film_id, {
+            method: "DELETE",
+        })
+
+        setLoading(false);
+
+        films.splice(films.indexOf(film), 1);
+        console.log(films.length);
+    }
+
     const handleClose = () => {
         setAddFilmOpen(false);
     };
-
 
     if (loading) {
         return (
@@ -37,23 +52,26 @@ const FilmList = () => {
 
     return (
         <div className='FilmList'>
-            <div className='LeftPadding'>
-
-            </div>
+            <div className='LeftPadding' />
             <div className='FilmListContainer'>
                 <h1 className='FilmListTitle'>Complete Film List</h1>
                 {films.map(
                     (film, i) => {
                         film.index = i + 1;
                         return (
-                            <div className='FilmBlock'>
-                                <FilmInstance {...film} />
+                            <div className='FilmBlock' key={film.film_id}>
+                                {film && <FilmInstance
+                                    film={film}
+                                    onDelete={(film) => {
+                                        deleteFilm(film);
+                                    }}
+                                />}
                             </div>
                         )
                     }
                 )}
                 <div>
-                    <p className='FooterText'>some text</p>
+                    <p className='FooterText'>some hidden text</p>
                 </div>
             </div>
             <div className='Fab'>
@@ -74,7 +92,8 @@ const FilmList = () => {
 
 export default FilmList;
 
-const FilmInstance = (film) => {
+const FilmInstance = (props) => {
+    const { film, onDelete } = props;
     let [showDetails, setShowDetails] = useState(false);
     let [buttonText, setButtonText] = useState("Expand");
 
@@ -84,16 +103,6 @@ const FilmInstance = (film) => {
     const handleEditFormClose = () => {
         setEditFilmOpen(false);
     };
-
-    const deleteFilm = (film) => {
-        fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films/delete/" + film.film_id, {
-            method: "DELETE",
-        })
-            .then(response => {
-                response.json();
-                console.log(response);
-            })
-    }
 
     return (
         <div className='FilmInstanceContainer'>
@@ -109,7 +118,7 @@ const FilmInstance = (film) => {
                         <div className='ButtonContainer'>
                             <IconButton aria-label="delete" size="large" >
                                 <Delete onClick={() => {
-                                    deleteFilm(film);
+                                    onDelete(film);
                                 }} />
                             </IconButton>
                             <IconButton aria-label="delete" size="large" onClick={() => {
@@ -195,14 +204,14 @@ const FilmDesc = (film) => {
         )
     } else {
         return (
-                <div key={film.film_id} className='FilmDescContainer'>
-                    <div className='FilmDesc'>
-                        <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
-                        <h5><em>Run Time: </em> {film.length} mins</h5>
-                        <h5><em>Cast:</em> None Available</h5>
-                        <h5><em>Special Features:</em> None Available</h5>
-                    </div>
+            <div key={film.film_id} className='FilmDescContainer'>
+                <div className='FilmDesc'>
+                    <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
+                    <h5><em>Run Time: </em> {film.length} mins</h5>
+                    <h5><em>Cast:</em> None Available</h5>
+                    <h5><em>Special Features:</em> None Available</h5>
                 </div>
-            )
+            </div>
+        )
     }
 }
