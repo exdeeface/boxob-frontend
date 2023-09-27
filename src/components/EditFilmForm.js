@@ -32,7 +32,7 @@ const EditFilmForm = (props) => {
     const handleClose = () => { onClose(); };
 
     const updateFilm = () => {
-        fetch(`films/update/${film.film_id}`, {
+        fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films/update/" + film.film_id, {
             method: "PUT",
             body: JSON.stringify({
                 "film_id": film.film_id,

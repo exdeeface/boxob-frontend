@@ -15,7 +15,7 @@ const FilmList = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("/films").then(response => response.json()).then(data => {
+        fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films").then(response => response.json()).then(data => {
             setFilms(data);
             setLoading(false);
         });
@@ -86,7 +86,7 @@ const FilmInstance = (film) => {
     };
 
     const deleteFilm = (film) => {
-        fetch(`films/delete/${film.film_id}`, {
+        fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films/delete/" + film.film_id, {
             method: "DELETE",
         })
             .then(response => {
