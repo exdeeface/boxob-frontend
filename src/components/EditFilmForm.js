@@ -17,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 
 const EditFilmForm = (props) => {
-    const { onClose, open, film } = props;
+    const { onClose, onSubmit, open, film } = props;
     const [title, setTitle] = useState(film.title);
     const [description, setDescription] = useState(film.description);
     const [release_year, setReleaseYear] = useState(film.release_year);
@@ -30,6 +30,7 @@ const EditFilmForm = (props) => {
     const handleCategoryChange = (event) => { setCategory(event.target.value); };
     const handleLanaguageChange = (event) => { setLanguageId(event.target.value); };
     const handleClose = () => { onClose(); };
+    const handleSubmit = () => { onSubmit() };
 
     const updateFilm = () => {
         //fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films/update/"

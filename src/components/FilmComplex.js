@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-function FilmComplex() {
+const FilmComplex = () => {
   const [loading, setLoading] = useState(false);
   const [film, setFilm] = useState([]);
   const { film_id } = useParams();

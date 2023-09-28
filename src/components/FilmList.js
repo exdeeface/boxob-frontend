@@ -1,28 +1,39 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import Delete from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
 import AddFilmForm from './AddFilmForm';
-import EditFilmForm from './EditFilmForm';
-import TextField from '@mui/material/TextField';
+import FilmSearch from './FilmSearch';
+import FilmInstance from './FilmInstance';
 
 const FilmList = () => {
     const [films, setFilms] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+    const [shownFilms, setShownFilms] = useState([]);
     const [addFilmOpen, setAddFilmOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    let [pageNumber, setPageNumber] = useState(1);
+    let [maxPages, setMaxPages] = useState(0);
+    const [resultsPerPage, setResultsPerPage] = useState(50);
 
     useEffect(() => {
         setLoading(true);
         //fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films")
         fetch("/films").then(response => response.json()).then(data => {
+            const slicedData = data.slice((pageNumber - 1) * resultsPerPage, pageNumber * resultsPerPage);
             setFilms(data);
+            setShownFilms(slicedData);
             setLoading(false);
+            let x = Math.ceil(films.length / resultsPerPage);
+            setMaxPages(x);
         });
     }, []);
+
+    const handlePageChange = (pageNum) => {
+        const slicedData = films.slice((pageNum - 1) * resultsPerPage, pageNum * resultsPerPage);
+        setShownFilms(slicedData);
+    }
 
     const deleteFilm = async (film) => {
         console.log(film.index, "/", films.length);
@@ -38,9 +49,27 @@ const FilmList = () => {
         console.log(films.length);
     }
 
-    const handleClose = () => {
+    const handleAddButtonClose = () => {
+        setRefresh(!refresh);
         setAddFilmOpen(false);
     };
+
+    const filterFilms = (searchParam) => {
+        let search = searchParam.toLowerCase();
+        const newArray = films.filter((film) => {
+            if (film.title.toLowerCase().includes(search)) { return film; }
+            if (film.categories[0].name.toLowerCase().includes(search)) { return film; }
+            if (film.rating.toLowerCase().includes(search)) { return film };
+        });
+        setSearchResults(newArray);
+        const splicedArray = searchResults.slice((pageNumber - 1) * resultsPerPage, pageNumber * resultsPerPage);
+        setShownFilms(splicedArray);
+    }
+
+    const resetFilter = () => {
+        const slicedData = films.slice((pageNumber - 1) * resultsPerPage, pageNumber * resultsPerPage);
+        setShownFilms(slicedData);
+    }
 
     if (loading) {
         return (
@@ -55,13 +84,9 @@ const FilmList = () => {
         <div className='FilmList'>
             <div className='TopBar'>
                 <h1 className='FilmListTitle'>Complete Film List</h1>
-                <div className='TopBarButtons'>
-                    <TextField id="search" label="Search" variant="outlined" style={{ width: 450, background: true, backgroundColor: 'rgb(252, 244, 246)', borderRadius: 5 }}
-                        onChange={e => {
-
-                        }} />
-
-                </div>
+                <FilmSearch
+                    onSearch={filterFilms}
+                    onReset={resetFilter} />
             </div>
             <div className='LeftPadding' />
             <div className='FilmListContainer'>
@@ -70,9 +95,9 @@ const FilmList = () => {
                 </Fab>
                 <AddFilmForm
                     open={addFilmOpen}
-                    onClose={handleClose}
+                    onClose={handleAddButtonClose}
                 />
-                {films.map(
+                {shownFilms.map(
                     (film, i) => {
                         film.index = i + 1;
                         return (
@@ -82,14 +107,20 @@ const FilmList = () => {
                                     onDelete={(film) => {
                                         deleteFilm(film);
                                     }}
+                                    onEditClose={() => {
+                                        setRefresh(!refresh);
+                                    }}
                                 />}
                             </div>
                         )
                     }
                 )}
                 <div>
-                    <p className='FooterText'>some hidden text</p>
+                    <h3><a href="" onClick={() => {
+                        handlePageChange(maxPages);
+                    }}>LAST</a></h3>
                 </div>
+                <div> <p className='FooterText'>some hidden text</p> </div>
             </div>
         </div>
 
@@ -97,127 +128,3 @@ const FilmList = () => {
 }
 
 export default FilmList;
-
-const FilmInstance = (props) => {
-    const { film, onDelete } = props;
-    let [showDetails, setShowDetails] = useState(false);
-    let [buttonText, setButtonText] = useState("Expand");
-
-    const [editFilmOpen, setEditFilmOpen] = useState(false);
-    const navigate = useNavigate();
-
-    const handleEditFormClose = () => {
-        setEditFilmOpen(false);
-    };
-
-    return (
-        <div className='FilmInstanceContainer'>
-            <div className="FilmInstance" key={film.film_id}>
-                <div className='FilmStuff'>
-                    <div className='IHateCss'>
-                        <div className='FilmTitleContainer'>
-                            <h2>{film.index}: <a href={"/films/" + film.film_id} onClick={() => {
-                                navigate("/films/" + film.film_id);
-                            }}>{film.title}</a> {"(" + film.release_year + ")"}</h2>
-                            <h3><em>Genre:</em> {film.categories[0].name}, <em>Rated:</em> {film.rating}</h3>
-                        </div>
-                        <div className='ButtonContainer'>
-                            <IconButton aria-label="delete" size="large" >
-                                <Delete onClick={() => {
-                                    onDelete(film);
-                                }} />
-                            </IconButton>
-                            <IconButton aria-label="delete" size="large" onClick={() => {
-                                setEditFilmOpen(true);
-                            }}>
-                                <EditIcon />
-                            </IconButton>
-                        </div>
-                        <EditFilmForm
-                            open={editFilmOpen}
-                            onClose={handleEditFormClose}
-                            film={film}
-                        />
-                    </div>
-                    <div className='FilmPlot'>
-                        <h4>{film.description}</h4>
-                    </div>
-                    <div className='FilmDescContainer'>
-                        {showDetails && <FilmDesc {...film} />}
-                        <button className="DetailsButton" onClick={() => {
-                            if (buttonText !== "Expand") {
-                                setButtonText("Expand");
-                            } else {
-                                setButtonText("Hide");
-                            }
-                            setShowDetails(showDetails = !showDetails);
-                        }}> {buttonText} </button>
-                    </div>
-                </div>
-                <div className='FilmArt'>
-                    <img src={require('../images/missing-image.jpg')} alt='missing poster' />
-                </div>
-            </div>
-        </div>
-    )
-}
-
-const FilmDesc = (film) => {
-    function fixCasing(actor) {
-        actor.first_name = actor.first_name.toLowerCase();
-        actor.first_name = actor.first_name.charAt(0).toUpperCase() + actor.first_name.slice(1);
-        actor.last_name = actor.last_name.toLowerCase();
-        actor.last_name = actor.last_name.charAt(0).toUpperCase() + actor.last_name.slice(1);
-    }
-
-    const getLanguage = (language_id) => {
-        switch (language_id) {
-            case 1: return "English";
-            case 2: return "Italian";
-            case 3: return "Japanese";
-            case 4: return "Mandarin";
-            case 5: return "French";
-            case 6: return "German";
-            default: return "English";
-        }
-    }
-
-    if (film.special_features && film.actors) {
-        return (
-            <div key={film.film_id} className='FilmDescContainer'>
-                <div className='FilmDesc'>
-                    <h5><em>Language: </em> {getLanguage(film.language_id)}<br />
-                        <em>Run Time: </em> {film.length} mins <br />
-                        <em>Cast: </em>
-                        {film.actors.map(
-                            (actor, i) => {
-                                fixCasing(actor);
-                                if (i < film.actors.length - 1) { return (<span>{actor.first_name} {actor.last_name}, </span>); }
-                                else { return (<span>{actor.first_name} {actor.last_name} </span>); }
-                            },
-                        )}
-                        <br />
-                        <em>Special Features: </em>
-                        {film.special_features.map(
-                            (feature, i) => {
-                                if (i < film.special_features.length - 1) { return (<span>{feature}, </span>); }
-                                else { return (<span>{feature} </span>); }
-                            },
-                        )}
-                    </h5>
-                </div>
-            </div>
-        )
-    } else {
-        return (
-            <div key={film.film_id} className='FilmDescContainer'>
-                <div className='FilmDesc'>
-                    <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
-                    <h5><em>Run Time: </em> {film.length} mins</h5>
-                    <h5><em>Cast:</em> None Available</h5>
-                    <h5><em>Special Features:</em> None Available</h5>
-                </div>
-            </div>
-        )
-    }
-}
