@@ -33,7 +33,7 @@ const AddFilmForm = (props) => {
 
     const addFilm = () => {
         //fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com
-        fetch("/films/add", {
+        fetch("https://graeme.fergcb.uk/films/add", {
             method: "POST",
             body: JSON.stringify({
                 "title": title,
