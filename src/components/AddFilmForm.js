@@ -32,8 +32,7 @@ const AddFilmForm = (props) => {
     const handleClose = () => { onClose(); };
 
     const addFilm = () => {
-        //fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com
-        fetch("https://graeme.fergcb.uk/films/add", {
+        fetch("graeme.fergcb.uk/films/add", {
             method: "POST",
             body: JSON.stringify({
                 "title": title,

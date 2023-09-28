@@ -33,8 +33,7 @@ const EditFilmForm = (props) => {
     const handleSubmit = () => { onSubmit() };
 
     const updateFilm = () => {
-        //fetch("http://Boxob-Backend-env-1.eba-3dpffdfw.eu-north-1.elasticbeanstalk.com/films/update/"
-        fetch("https://graeme.fergcb.ukfilms/update/" + film.film_id, {
+        fetch("graeme.fergcb.ukfilms/update/" + film.film_id, {
             method: "PUT",
             body: JSON.stringify({
                 "film_id": film.film_id,
