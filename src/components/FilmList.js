@@ -19,7 +19,7 @@ const FilmList = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("graeme.fergcb.uk/films").then(response => response.json()).then(data => {
+        fetch("https://graeme.fergcb.uk/films").then(response => response.json()).then(data => {
             const slicedData = data.slice((pageNumber - 1) * resultsPerPage, pageNumber * resultsPerPage);
             setFilms(data);
             setShownFilms(slicedData);
@@ -38,7 +38,7 @@ const FilmList = () => {
     const deleteFilm = async (film) => {
         console.log(film.index, "/", films.length);
         setLoading(true);
-        await fetch("graeme.fergcb.uk/films/delete/" + film.film_id, {
+        await fetch("https://graeme.fergcb.uk/films/delete/" + film.film_id, {
             method: "DELETE",
         })
 

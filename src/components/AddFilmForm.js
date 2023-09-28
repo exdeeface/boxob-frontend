@@ -32,7 +32,7 @@ const AddFilmForm = (props) => {
     const handleClose = () => { onClose(); };
 
     const addFilm = () => {
-        fetch("graeme.fergcb.uk/films/add", {
+        fetch("https://graeme.fergcb.uk/films/add", {
             method: "POST",
             body: JSON.stringify({
                 "title": title,
