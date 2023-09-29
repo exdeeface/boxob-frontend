@@ -12,6 +12,28 @@ const FilmInstance = (props) => {
     const { film, onDelete, onEditClose } = props;
     let [showDetails, setShowDetails] = useState(false);
     let [buttonText, setButtonText] = useState("Expand");
+    
+    const makeFilmIdHash = () => {
+        let value = film.film_id;
+        let sum = 0;
+        let unit = film.film_id % 10;
+        let tens = film.film_id % 100;
+
+
+        while (value) {
+            sum += value % 10;
+            value = Math.floor(value / 10);
+        }
+
+        let val = sum += Math.abs((unit - tens % 10));
+        while (val > 50) {
+            val = (val - 50)
+        }
+        console.log(val);
+
+        return val;
+   }
+    const [filmIdHash, setFilmIdHash] = useState(makeFilmIdHash);
 
     const [editFilmOpen, setEditFilmOpen] = useState(false);
     const navigate = useNavigate();
@@ -71,7 +93,7 @@ const FilmInstance = (props) => {
                     </div>
                 </div>
                 <div className='FilmArt'>
-                    <img src={require('../images/missing-image.jpg')} alt='missing poster' />
+                    <img src={require('../images/poster_image_' + filmIdHash + '.jpg')} alt='missing poster'/>
                 </div>
             </div>
         </div>

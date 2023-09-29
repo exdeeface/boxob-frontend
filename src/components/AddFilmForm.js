@@ -62,20 +62,11 @@ const AddFilmForm = (props) => {
                 <DialogTitle>Add New Movie</DialogTitle>
                 <List sx={{ padding: 2 }}>
                     <ListItem disableGutters>
-                        <TextField id="title" label="Title" variant="outlined" style={{ width: 300 }}
-                            onChange={e => {
-                                setTitle(e.target.value);
-                            }} />
+                        <TextField id="title" label="Title" variant="outlined" style={{ width: 300 }} onChange={e => { setTitle(e.target.value); }} />
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <TextField id="year" label="Year" variant="outlined" style={{ width: 120 }}
-                            onChange={e => {
-                                setReleaseYear(e.target.value);
-                            }} />
+                        <TextField id="year" label="Year" variant="outlined" style={{ width: 120 }} onChange={e => { setReleaseYear(e.target.value); }} />
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <TextField id="runtime" label="Runtime" variant="outlined" style={{ width: 120 }}
-                            onChange={e => {
-                                setLength(e.target.value);
-                            }}/>
+                        <TextField id="runtime" label="Runtime" variant="outlined" style={{ width: 120 }} onChange={e => { setLength(e.target.value); }}/>
                     </ListItem>
                     <ListItem disableGutters>
                         <TextField id="description" label="Description" variant="outlined" fullWidth
@@ -107,8 +98,8 @@ const AddFilmForm = (props) => {
                                 id="category"
                                 value={category}
                                 label="Category"
-                                onChange={handleCategoryChange}
-                            >   <MenuItem value={"1"}>Action</MenuItem>
+                                onChange={handleCategoryChange}>
+                                <MenuItem value={"1"}>Action</MenuItem>
                                 <MenuItem value={"2"}>Animation</MenuItem>
                                 <MenuItem value={"3"}>Children</MenuItem>
                                 <MenuItem value={"4"}>Classics</MenuItem>

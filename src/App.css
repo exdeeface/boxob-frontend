@@ -25,7 +25,7 @@ body {
 .HomePage {
   color: rgb(230, 230, 230);
   display:block;
-  padding-top: 14%;
+  padding-top: 18%;
 }
 
 .ButtonDefault button{
@@ -131,7 +131,7 @@ a {
 }
 
 .FilmArt img {
-  overflow: hidden;
+  width: 292px;
   margin: auto;
   border-radius: 2%;
 }
