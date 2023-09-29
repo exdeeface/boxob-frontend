@@ -42,6 +42,7 @@ const AddFilmForm = (props) => {
                 "rating": rating,
                 "rental_duration": 0,
                 "rental_rate": 0,
+                "rental_duration": film.rental_duration,
                 "language_id": language_id,
                 "categories": [
                     {
