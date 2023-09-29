@@ -5,14 +5,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditFilmForm from './EditFilmForm';
-
 import FilmDesc from './FilmDesc';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import { purple } from '@mui/material/colors';
 
 const FilmInstance = (props) => {
     const { film, onDelete, onEditClose } = props;
     let [showDetails, setShowDetails] = useState(false);
     let [buttonText, setButtonText] = useState("Expand");
-    
+
     const makeFilmIdHash = () => {
         let value = film.film_id;
         let sum = 0;
@@ -32,7 +34,7 @@ const FilmInstance = (props) => {
         console.log(val);
 
         return val;
-   }
+    }
     const [filmIdHash, setFilmIdHash] = useState(makeFilmIdHash);
 
     const [editFilmOpen, setEditFilmOpen] = useState(false);
@@ -46,6 +48,14 @@ const FilmInstance = (props) => {
         setEditFilmOpen(false);
         onEditClose();
     }
+
+    const ColorButton = styled(Button)(({ theme }) => ({
+        minWidth: 100,
+        backgroundColor: '#202020',
+        '&:hover': {
+            backgroundColor: '#464646',
+        },
+    }));
 
     return (
         <div className='FilmInstanceContainer'>
@@ -82,18 +92,19 @@ const FilmInstance = (props) => {
                     </div>
                     <div className='FilmDescContainer'>
                         {showDetails && <FilmDesc {...film} />}
-                        <button className="DetailsButton" onClick={() => {
+                        <ColorButton className="DetailsButton" variant="contained" onClick={() => {
                             if (buttonText !== "Expand") {
                                 setButtonText("Expand");
                             } else {
                                 setButtonText("Hide");
                             }
                             setShowDetails(showDetails = !showDetails);
-                        }}> {buttonText} </button>
+                        }}>{buttonText}</ColorButton>
+
                     </div>
                 </div>
                 <div className='FilmArt'>
-                    <img src={require('../images/poster_image_' + filmIdHash + '.jpg')} alt='missing poster'/>
+                    <img src={require('../images/poster_image_' + filmIdHash + '.jpg')} alt='missing poster' />
                 </div>
             </div>
         </div>
