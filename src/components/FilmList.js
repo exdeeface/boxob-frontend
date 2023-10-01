@@ -5,6 +5,10 @@ import AddIcon from '@mui/icons-material/Add';
 import AddFilmForm from './AddFilmForm';
 import FilmSearch from './FilmSearch';
 import FilmInstance from './FilmInstance';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert'
 
 const FilmList = () => {
     const [films, setFilms] = useState([]);
@@ -12,22 +16,29 @@ const FilmList = () => {
     const [addFilmOpen, setAddFilmOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [showFilmSuccess, setShowFilmSuccess] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
-        //fetch("https://graeme.fergcb.uk/films").then(response => response.json()).then(data => {
-        fetch("http://localhost:8080/films").then(response => response.json()).then(data => {
-            setFilms(data);
-            setShownFilms(data);
-            setLoading(false);
-        });
+        const fetchFilms = async () => {
+            setLoading(true);
+            await fetch("https://graeme.fergcb.uk/films").then(response => response.json()).then(data => {
+                //fetch("http://localhost:8080/films").then(response => response.json()).then(data => {
+                setFilms(data);
+                setShownFilms(data);
+                setLoading(false);
+                setShowFilmSuccess(true);
+            }).then(
+                showFilmSuccess && <MuiAlert elevation={6} variant="filled" />
+            );
+        }
+        fetchFilms();
     }, [refresh]);
 
     const deleteFilm = async (film) => {
         console.log(film.index, "/", films.length);
         setLoading(true);
-        //await fetch("https://graeme.fergcb.uk/films/delete/" + film.film_id, {
-        await fetch("http://localhost:8080/films/delete/" + film.film_id, {
+        await fetch("https://graeme.fergcb.uk/films/delete/" + film.film_id, {
+            //await fetch("http://localhost:8080/films/delete/" + film.film_id, {
             method: "DELETE",
         })
 
@@ -46,7 +57,7 @@ const FilmList = () => {
 
     const filterFilms = (searchParam) => {
         let search = searchParam.toLowerCase();
-        let newArray = films.filter((film) =>  film.title.toLowerCase().includes(search) );
+        let newArray = films.filter((film) => film.title.toLowerCase().includes(search));
 
         newArray = [...newArray, ...films.filter((film) => !newArray.includes(film) && film.description.toLowerCase().includes(search))]
         newArray = [...newArray, ...films.filter((film) => !newArray.includes(film) && film.categories[0].name.toLowerCase().includes(search))]

@@ -31,9 +31,9 @@ const AddFilmForm = (props) => {
     const handleLanaguageChange = (event) => { setLanguageId(event.target.value); };
     const handleClose = () => { onClose(); };
 
-    const addFilm = () => {
-        //fetch("https://graeme.fergcb.uk/films/add", {
-        fetch("http://localhost:8080/films/add", {
+    const addFilm = async () => {
+        await fetch("https://graeme.fergcb.uk/films/add", {
+        //fetch("http://localhost:8080/films/add", {
             method: "POST",
             body: JSON.stringify({
                 "title": title,

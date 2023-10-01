@@ -32,9 +32,9 @@ const EditFilmForm = (props) => {
     const handleClose = () => { onClose(); };
     const handleSubmit = () => { onSubmit() };
 
-    const updateFilm = () => {
-        //fetch("https://graeme.fergcb.uk/films/update/" + film.film_id, {
-        fetch("http://localhost:8080/films/update/" + film.film_id, {
+    const updateFilm = async () => {
+        await fetch("https://graeme.fergcb.uk/films/update/" + film.film_id, {
+        //fetch("http://localhost:8080/films/update/" + film.film_id, {
             method: "PUT",
             body: JSON.stringify({
                 "film_id": film.film_id,
