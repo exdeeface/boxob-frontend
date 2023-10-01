@@ -8,10 +8,10 @@ import EditFilmForm from './EditFilmForm';
 import FilmDesc from './FilmDesc';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import { purple } from '@mui/material/colors';
 
 const FilmInstance = (props) => {
     const { film, onDelete, onEditClose } = props;
+    const [thisFilm, setThisFilm] = useState(film);
     let [showDetails, setShowDetails] = useState(false);
     let [buttonText, setButtonText] = useState("Expand");
 
@@ -21,20 +21,17 @@ const FilmInstance = (props) => {
         let unit = film.film_id % 10;
         let tens = film.film_id % 100;
 
-
         while (value) {
             sum += value % 10;
             value = Math.floor(value / 10);
         }
 
-        let val = sum += Math.abs((unit - tens % 10));
-        while (val > 50) {
-            val = (val - 50)
-        }
-        console.log(val);
+        let val = sum += Math.abs((3 * unit - 2 * tens % 10));
+        while (val > 50) { val = (val - 50) }
 
         return val;
     }
+    
     const [filmIdHash, setFilmIdHash] = useState(makeFilmIdHash);
 
     const [editFilmOpen, setEditFilmOpen] = useState(false);
@@ -49,29 +46,25 @@ const FilmInstance = (props) => {
         onEditClose();
     }
 
-    const ColorButton = styled(Button)(({ theme }) => ({
+    const ColorButton = styled(Button)(() => ({
         minWidth: 100,
         backgroundColor: '#202020',
-        '&:hover': {
-            backgroundColor: '#464646',
-        },
+        '&:hover': { backgroundColor: '#464646' }
     }));
 
     return (
         <div className='FilmInstanceContainer'>
-            <div className="FilmInstance" key={film.film_id}>
+            <div className="FilmInstance" key={thisFilm.film_id}>
                 <div className='FilmStuff'>
                     <div className='IHateCss'>
                         <div className='FilmTitleContainer'>
-                            <h2>{film.index}: <a href={"/films/" + film.film_id} onClick={() => {
-                                navigate("/films/" + film.film_id);
-                            }}>{film.title}</a> {"(" + film.release_year + ")"}</h2>
-                            <h3><em>Genre:</em> {film.categories[0].name}, <em>Rated:</em> {film.rating}</h3>
+                            <h2>{thisFilm.index}: {thisFilm.title} {"(" + thisFilm.release_year + ")"}</h2>
+                            <h3><em>Genre:</em> {thisFilm.categories[0].name}, <em>Rated:</em> {thisFilm.rating}</h3>
                         </div>
                         <div className='ButtonContainer'>
                             <IconButton aria-label="delete" size="large" >
                                 <Delete onClick={() => {
-                                    onDelete(film);
+                                    onDelete(thisFilm);
                                 }} />
                             </IconButton>
                             <IconButton aria-label="delete" size="large" onClick={() => {
@@ -83,12 +76,14 @@ const FilmInstance = (props) => {
                         <EditFilmForm
                             open={editFilmOpen}
                             onClose={handleEditFormClose}
-                            onSubmit={handleEditFormSubmit}
-                            film={film}
+                            onSubmit={() => {
+                                handleEditFormSubmit();
+                            }}
+                            film={thisFilm}
                         />
                     </div>
                     <div className='FilmPlot'>
-                        <h4>{film.description}</h4>
+                        <h4>{thisFilm.description}</h4>
                     </div>
                     <div className='FilmDescContainer'>
                         {showDetails && <FilmDesc {...film} />}

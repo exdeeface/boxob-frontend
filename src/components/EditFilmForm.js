@@ -33,7 +33,8 @@ const EditFilmForm = (props) => {
     const handleSubmit = () => { onSubmit() };
 
     const updateFilm = () => {
-        fetch("https://graeme.fergcb.ukfilms/update/" + film.film_id, {
+        //fetch("https://graeme.fergcb.uk/films/update/" + film.film_id, {
+        fetch("http://localhost:8080/films/update/" + film.film_id, {
             method: "PUT",
             body: JSON.stringify({
                 "film_id": film.film_id,
@@ -45,20 +46,13 @@ const EditFilmForm = (props) => {
                 "language_id": language_id,
                 "rental_duration": film.rental_duration,
                 "rental_rate": film.rental_rate,
+                "categories": [
+                    {
+                        "category_id": category,
+                        "name": null
+                    }
+                ]
             }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        })
-
-        fetch("film_category/update", {
-            method: "PUT",
-            body: JSON.stringify({
-                "filmCategoryId": {
-                    "film_id": film.film_id,
-                    "category_id": category
-                }
-             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
             },
@@ -156,7 +150,7 @@ const EditFilmForm = (props) => {
                     <ListItem disableGutters>
                         <ListItemButton autoFocus onClick={() => {
                             updateFilm();
-                            handleClose();
+                            handleSubmit();
                         }}>
                             <ListItemAvatar>
                                 <Avatar>

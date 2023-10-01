@@ -51,7 +51,7 @@ const FilmDesc = (film) => {
             <div key={film.film_id} className='FilmDescContainer'>
                 <div className='FilmDesc'>
                     <h5><em>Language: </em> {getLanguage(film.language_id)} </h5>
-                    <h5><em>Run Time: </em> {film.length} mins</h5>
+                    <h5><em>Run Time: </em> {film.length} minutes</h5>
                     <h5><em>Cast:</em> None Available</h5>
                     <h5><em>Special Features:</em> None Available</h5>
                 </div>

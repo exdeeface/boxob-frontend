@@ -15,17 +15,19 @@ const FilmList = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("https://graeme.fergcb.uk/films").then(response => response.json()).then(data => {
+        //fetch("https://graeme.fergcb.uk/films").then(response => response.json()).then(data => {
+        fetch("http://localhost:8080/films").then(response => response.json()).then(data => {
             setFilms(data);
             setShownFilms(data);
             setLoading(false);
         });
-    }, []);
+    }, [refresh]);
 
     const deleteFilm = async (film) => {
         console.log(film.index, "/", films.length);
         setLoading(true);
-        await fetch("https://graeme.fergcb.uk/films/delete/" + film.film_id, {
+        //await fetch("https://graeme.fergcb.uk/films/delete/" + film.film_id, {
+        await fetch("http://localhost:8080/films/delete/" + film.film_id, {
             method: "DELETE",
         })
 
@@ -36,7 +38,9 @@ const FilmList = () => {
     }
 
     const handleAddButtonClose = () => {
+        console.log(refresh);
         setRefresh(!refresh);
+        console.log(refresh);
         setAddFilmOpen(false);
     };
 
