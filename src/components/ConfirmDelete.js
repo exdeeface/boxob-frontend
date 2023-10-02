@@ -23,22 +23,22 @@ const ConfirmDelete = (props) => {
                 maxWidth={'xs'}
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Permanantly discard from database?"}
+                    {"Confirm Deletion"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure?
+                        This action is permanent, are you sure?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => {
                         confirm();
                         handleClose();
-                    }}>Yes, delete</Button>
+                    }}>Confirm</Button>
                     <Button onClick={() => {
                         handleClose();
                     }} autoFocus>
-                        No, go back
+                        No, wait
                     </Button>
                 </DialogActions>
             </Dialog>
