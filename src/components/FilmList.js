@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
+import React from 'react';
 
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import AddFilmForm from './AddFilmForm';
 import FilmSearch from './FilmSearch';
 import FilmInstance from './FilmInstance';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert'
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const FilmList = () => {
     const [films, setFilms] = useState([]);
@@ -27,9 +30,7 @@ const FilmList = () => {
                 setShownFilms(data);
                 setLoading(false);
                 setShowFilmSuccess(true);
-            }).then(
-                showFilmSuccess && <MuiAlert elevation={6} variant="filled" />
-            );
+            });
         }
         fetchFilms();
     }, [refresh]);
@@ -46,6 +47,10 @@ const FilmList = () => {
 
         films.splice(films.indexOf(film), 1);
         console.log(films.length);
+    }
+
+    const handleToasterClose = () => {
+        setShowFilmSuccess(false);
     }
 
     const handleAddButtonClose = () => {
@@ -115,6 +120,11 @@ const FilmList = () => {
                 )}
                 <div> <p className='FooterText'>some hidden text</p> </div>
             </div>
+            <Snackbar open={showFilmSuccess} autoHideDuration={3000} onClose={handleToasterClose}>
+                <Alert onClose={handleToasterClose} severity="success" sx={{ width: '200px' }}>
+                    Database request successful
+                </Alert>
+            </Snackbar>
         </div>
 
     );

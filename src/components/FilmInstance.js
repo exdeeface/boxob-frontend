@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -8,14 +7,16 @@ import EditFilmForm from './EditFilmForm';
 import FilmDesc from './FilmDesc';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import ConfirmDelete from "./ConfirmDelete";
 
 const FilmInstance = (props) => {
     const { film, onDelete, onEditClose } = props;
-    const [thisFilm, setThisFilm] = useState(film);
     let [showDetails, setShowDetails] = useState(false);
     let [buttonText, setButtonText] = useState("Expand");
+    const [editFilmOpen, setEditFilmOpen] = useState(false);
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
-    const makeFilmIdHash = () => {
+    const [filmIdHash] = useState(() => {
         let value = film.film_id;
         let sum = 0;
         let unit = film.film_id % 10;
@@ -30,12 +31,7 @@ const FilmInstance = (props) => {
         while (val > 50) { val = (val - 50) }
 
         return val;
-    }
-    
-    const [filmIdHash, setFilmIdHash] = useState(makeFilmIdHash);
-
-    const [editFilmOpen, setEditFilmOpen] = useState(false);
-    const navigate = useNavigate();
+    });
 
     const handleEditFormClose = () => {
         setEditFilmOpen(false);
@@ -54,17 +50,21 @@ const FilmInstance = (props) => {
 
     return (
         <div className='FilmInstanceContainer'>
-            <div className="FilmInstance" key={thisFilm.film_id}>
-                <div className='FilmStuff'>
-                    <div className='IHateCss'>
+            <div className="FilmInstance" key={film.film_id}>
+                <div className='FilmInfoContainer'>
+                    <div className='FilmInfo'>
                         <div className='FilmTitleContainer'>
-                            <h2>{thisFilm.index}: {thisFilm.title} {"(" + thisFilm.release_year + ")"}</h2>
-                            <h3><em>Genre:</em> {thisFilm.categories[0].name}, <em>Rated:</em> {thisFilm.rating}</h3>
+                            <h2>{film.index}: {film.title} {"(" + film.release_year + ")"}</h2>
+                            <h3><em>Genre:</em> {film.categories[0].name}, <em>Rated:</em> {film.rating}</h3>
                         </div>
                         <div className='ButtonContainer'>
+                            <ConfirmDelete open={showConfirmDelete} confirm={() => {
+                                onDelete(film)
+                            }}
+                                onClose={() => setShowConfirmDelete(false)} />
                             <IconButton aria-label="delete" size="large" >
                                 <Delete onClick={() => {
-                                    onDelete(thisFilm);
+                                    setShowConfirmDelete(true);
                                 }} />
                             </IconButton>
                             <IconButton aria-label="delete" size="large" onClick={() => {
@@ -79,11 +79,11 @@ const FilmInstance = (props) => {
                             onSubmit={() => {
                                 handleEditFormSubmit();
                             }}
-                            film={thisFilm}
+                            film={film}
                         />
                     </div>
                     <div className='FilmPlot'>
-                        <h4>{thisFilm.description}</h4>
+                        <h4>{film.description}</h4>
                     </div>
                     <div className='FilmDescContainer'>
                         {showDetails && <FilmDesc {...film} />}

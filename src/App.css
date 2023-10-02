@@ -111,7 +111,7 @@ a {
   border-radius: 5px;
 }
 
-.FilmStuff {
+.FilmInfoContainer {
   width: 70%;
 }
 
@@ -263,7 +263,7 @@ a {
   font-style: italic;
 }
 
-.IHateCss {
+.FilmInfo {
   display: flex;
 }
 

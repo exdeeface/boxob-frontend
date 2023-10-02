@@ -33,7 +33,7 @@ const AddFilmForm = (props) => {
 
     const addFilm = async () => {
         await fetch("https://graeme.fergcb.uk/films/add", {
-        //fetch("http://localhost:8080/films/add", {
+        //await fetch("http://localhost:8080/films/add", {
             method: "POST",
             body: JSON.stringify({
                 "title": title,
